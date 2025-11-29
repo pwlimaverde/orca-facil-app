@@ -43,30 +43,42 @@ class BudgetDetailViewModel @Inject constructor(
         val currentBudget = budgetWithItems.value?.budget ?: return
         
         viewModelScope.launch {
-            val newItem = BudgetItem(
-                budgetId = currentBudget.id,
-                nomeProduto = nomeProduto,
-                quantidade = quantidade,
-                valorUnitario = valorUnitario
-            )
-            repository.insertItem(newItem)
-            updateBudgetTotal(currentBudget)
+            try {
+                val newItem = BudgetItem(
+                    budgetId = currentBudget.id,
+                    nomeProduto = nomeProduto,
+                    quantidade = quantidade,
+                    valorUnitario = valorUnitario
+                )
+                repository.insertItem(newItem)
+                updateBudgetTotal(currentBudget)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     fun updateItem(item: BudgetItem) {
         val currentBudget = budgetWithItems.value?.budget ?: return
         viewModelScope.launch {
-            repository.updateItem(item)
-            updateBudgetTotal(currentBudget)
+            try {
+                repository.updateItem(item)
+                updateBudgetTotal(currentBudget)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     fun deleteItem(item: BudgetItem) {
         val currentBudget = budgetWithItems.value?.budget ?: return
         viewModelScope.launch {
-            repository.deleteItem(item)
-            updateBudgetTotal(currentBudget)
+            try {
+                repository.deleteItem(item)
+                updateBudgetTotal(currentBudget)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -86,7 +98,11 @@ class BudgetDetailViewModel @Inject constructor(
     // Método para atualizar o status ou outros dados do orçamento
     fun updateBudget(budget: Budget) {
         viewModelScope.launch {
-            repository.updateBudget(budget)
+            try {
+                repository.updateBudget(budget)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

@@ -25,20 +25,28 @@ class HomeViewModel @Inject constructor(
 
     fun addBudget(nome: String, descricao: String) {
         viewModelScope.launch {
-            val newBudget = Budget(
-                nome = nome,
-                descricao = descricao,
-                dataCriacao = System.currentTimeMillis(),
-                valorTotal = 0.0,
-                status = "Em Aberto"
-            )
-            repository.insertBudget(newBudget)
+            try {
+                val newBudget = Budget(
+                    nome = nome,
+                    descricao = descricao,
+                    dataCriacao = System.currentTimeMillis(),
+                    valorTotal = 0.0,
+                    status = "Em Aberto"
+                )
+                repository.insertBudget(newBudget)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     fun deleteBudget(budget: Budget) {
         viewModelScope.launch {
-            repository.deleteBudget(budget)
+            try {
+                repository.deleteBudget(budget)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

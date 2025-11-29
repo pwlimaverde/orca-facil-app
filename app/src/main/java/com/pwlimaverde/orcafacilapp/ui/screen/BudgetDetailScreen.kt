@@ -96,20 +96,41 @@ fun BudgetDetailScreen(
                 }
             }
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp)
-            ) {
-                items(budgetWithItems?.items ?: emptyList()) { item ->
-                    BudgetItemRow(
-                        item = item,
-                        onEditClick = { 
-                            itemToEdit = item
-                            showItemDialog = true
-                        },
-                        onDeleteClick = { viewModel.deleteItem(item) }
+            if (budgetWithItems?.items.isNullOrEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
+                    horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Nenhum item adicionado",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                    Text(
+                        text = "Adicione itens ao orçamento",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    items(budgetWithItems?.items ?: emptyList()) { item ->
+                        BudgetItemRow(
+                            item = item,
+                            onEditClick = { 
+                                itemToEdit = item
+                                showItemDialog = true
+                            },
+                            onDeleteClick = { viewModel.deleteItem(item) }
+                        )
+                    }
                 }
             }
         }

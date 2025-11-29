@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -60,22 +61,50 @@ fun HomeScreen(
             }
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp)
-        ) {
-            items(budgets) { budget ->
-                BudgetCard(
-                    budget = budget,
-                    onClick = { navController.navigate(Screen.BudgetDetail.createRoute(budget.id)) },
-                    onDeleteClick = { viewModel.deleteBudget(budget) }
-                )
+            if (budgets.isEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
+                    horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = null,
+                        modifier = Modifier.size(64.dp),
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Nenhum orçamento cadastrado",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = "Toque no + para criar um novo",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(16.dp)
+                ) {
+                    items(budgets) { budget ->
+                        BudgetCard(
+                            budget = budget,
+                            onClick = { navController.navigate(Screen.BudgetDetail.createRoute(budget.id)) },
+                            onDeleteClick = { viewModel.deleteBudget(budget) }
+                        )
+                    }
+                }
             }
-        }
 
-        if (showDialog) {
+            if (showDialog) {
             AddBudgetDialog(
                 onDismiss = { showDialog = false },
                 onConfirm = { nome, descricao ->
