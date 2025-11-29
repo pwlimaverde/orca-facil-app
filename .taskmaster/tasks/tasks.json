@@ -397,47 +397,47 @@
         ]
       },
       {
-        "id": 17,
+        "id": "17",
         "title": "Escrita do Corpo do Paper (Fundamentação e Metodologia)",
-        "description": "Escrever a Fundamentação Teórica e Metodologia do Paper, garantindo o cumprimento dos requisitos de conteúdo e citações.",
-        "details": "Escrever no mínimo 10 parágrafos para a Fundamentação Teórica, citando livros/artigos sobre Kotlin, Android e Room. Na Metodologia, descrever o uso do Android Studio, Kotlin DSL e API 28. Inserir as evidências coletadas com legendas explicativas.",
-        "testStrategy": "",
+        "description": "Escrever a Fundamentação Teórica e Metodologia do Paper, garantindo o cumprimento dos requisitos de conteúdo (10+ parágrafos), citações e inserção correta de evidências de código e tela.",
         "status": "pending",
         "dependencies": [
           16
         ],
         "priority": "high",
+        "details": "Obrigatório: 1. Escrever no mínimo 10 parágrafos para a Fundamentação Teórica. 2. Inserir evidências de CÓDIGO (snippets) diretamente na Fundamentação Teórica para ilustrar conceitos (conforme item 94 das diretrizes). 3. Inserir evidências de TELAS (screenshots) na Metodologia ou na Fundamentação, dependendo de onde fizer mais sentido contextual. Citar livros/artigos sobre Kotlin, Android Jetpack e Room.",
+        "testStrategy": "Revisão de conformidade com a ABNT e checklist de diretrizes (item 94).",
         "subtasks": [
           {
             "id": 1,
-            "title": "Redação da Fundamentação Teórica",
-            "description": "Elaborar o texto da Fundamentação Teórica, cobrindo os conceitos tecnológicos fundamentais do projeto com no mínimo 10 parágrafos.",
+            "title": "Redação da Fundamentação Teórica com Snippets de Código",
+            "description": "Elaborar o texto da Fundamentação Teórica (mínimo 10 parágrafos) integrando conceitos e evidências de código.",
             "dependencies": [],
-            "details": "Escrever sobre a linguagem Kotlin (segurança de nulos, concisão), a plataforma Android (com foco na arquitetura moderna) e a biblioteca de persistência Room. É obrigatório incluir citações de livros técnicos ou artigos acadêmicos para embasar as afirmações sobre cada tecnologia.",
+            "details": "Escrever sobre Kotlin (segurança, concisão), Android Jetpack Compose e Room. IMPORTANTE: Inserir snippets de código do projeto (ex: definições de Entidades em 'Budget.kt', interfaces 'DAO' ou temas em 'Theme.kt') diretamente nesta seção para fundamentar a teoria, conforme diretriz 94. Obrigatório incluir citações bibliográficas.",
             "status": "pending",
-            "testStrategy": "Revisão manual para garantir a presença de no mínimo 10 parágrafos e verificação da validade das citações bibliográficas."
+            "testStrategy": "Verificar contagem de parágrafos (>=10) e presença de blocos de código formatados corretamente no meio do texto teórico."
           },
           {
             "id": 2,
             "title": "Escrita da Metodologia e Ferramentas",
-            "description": "Descrever a metodologia de desenvolvimento, detalhando o ambiente, as configurações de build e as ferramentas utilizadas.",
+            "description": "Descrever a metodologia de desenvolvimento, ambiente, configurações de build e fluxo de trabalho.",
             "dependencies": [
               1
             ],
-            "details": "Documentar o uso do Android Studio como IDE, o sistema de build baseado em Kotlin DSL (build.gradle.kts) e a definição da API Level 28 como target. Explicar brevemente o fluxo de implementação das funcionalidades (ex: criação das entidades Room, depois DAOs, Repositories e UI).",
+            "details": "Documentar o uso do Android Studio, Kotlin DSL (build.gradle.kts) e API Level 28. Explicar o fluxo: Banco de Dados (Room) -> Lógica (Repository/ViewModel) -> UI (Compose). Preparar o texto para receber as capturas de tela.",
             "status": "pending",
             "testStrategy": null
           },
           {
             "id": 3,
-            "title": "Inserção de Evidências e Legendas",
-            "description": "Integrar as capturas de tela coletadas anteriormente ao texto da metodologia para ilustrar os resultados obtidos.",
+            "title": "Inserção de Evidências Visuais (Telas) e Legendas",
+            "description": "Integrar as capturas de tela (evidências de funcionamento) ao texto da Metodologia ou Fundamentação.",
             "dependencies": [
               2
             ],
-            "details": "Inserir as imagens (evidências de funcionamento do app) nos pontos apropriados do texto da Metodologia. Adicionar legendas explicativas numeradas (ex: 'Figura 1: Tela de Listagem de Orçamentos') e garantir que cada imagem seja referenciada no corpo do texto.",
+            "details": "Inserir as imagens das telas (Home, Detalhes, Formulários) prioritariamente na Metodologia, ou na Fundamentação se estiver explicando um componente visual específico. Adicionar legendas explicativas numeradas (ex: 'Figura 1: Tela Principal') e referenciar no texto.",
             "status": "pending",
-            "testStrategy": "Inspeção visual para confirmar que todas as imagens possuem legendas corretas e estão alinhadas com o texto explicativo."
+            "testStrategy": "Inspeção visual: Confirmar que códigos estão na Fundamentação e Telas estão contextualizadas com legendas."
           }
         ]
       },
