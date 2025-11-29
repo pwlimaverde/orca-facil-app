@@ -1,0 +1,7 @@
+# 1. Introdução
+
+A gestão financeira pessoal e empresarial é um desafio constante, demandando ferramentas que ofereçam agilidade e precisão no controle de gastos e orçamentos. Com a onipresença dos dispositivos móveis, aplicativos de gestão tornaram-se aliados indispensáveis para profissionais autônomos e pequenas empresas que necessitam criar orçamentos de forma rápida e organizada.
+
+O presente trabalho tem como objetivo descrever o desenvolvimento do **OrcaFacilApp**, um aplicativo nativo para o sistema operacional Android, projetado para facilitar a criação e gestão de orçamentos. O projeto foi concebido com o intuito de explorar e aplicar as tecnologias mais recentes recomendadas pela Google para o desenvolvimento mobile moderno, especificamente a linguagem **Kotlin**, o kit de interface **Jetpack Compose** e a biblioteca de persistência **Room**.
+
+A escolha dessas tecnologias justifica-se pela necessidade de construir uma solução robusta, escalável e de fácil manutenção. O Kotlin oferece segurança e concisão; o Jetpack Compose revoluciona a construção de interfaces com sua abordagem declarativa; e o Room garante a integridade dos dados locais. Ao longo deste documento, serão detalhados os aspectos teóricos que fundamentam essas escolhas, a metodologia de desenvolvimento aplicada e os resultados obtidos, evidenciados através de trechos de código e capturas de tela da aplicação funcional.

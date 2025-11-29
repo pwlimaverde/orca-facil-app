@@ -1,0 +1,5 @@
+**RESUMO**
+
+Este trabalho apresenta o desenvolvimento do aplicativo **OrcaFacilApp**, uma solução móvel nativa para a plataforma Android destinada à criação e gestão simplificada de orçamentos. O objetivo principal foi aplicar e demonstrar a eficácia das tecnologias modernas recomendadas pela Google, utilizando a linguagem **Kotlin** como base, o **Jetpack Compose** para a construção de interfaces declarativas e a biblioteca **Room** para a persistência de dados local. A metodologia adotada seguiu os princípios da Engenharia de Software, com uma arquitetura baseada no padrão **MVVM (Model-View-ViewModel)**, garantindo a separação de responsabilidades e a testabilidade do código. Os resultados obtidos incluem uma aplicação funcional, capaz de cadastrar orçamentos e itens, calcular totais automaticamente e manter os dados salvos no dispositivo. O projeto evidencia como a adoção de ferramentas modernas reduz a complexidade do desenvolvimento e eleva a qualidade do software final, proporcionando uma experiência de usuário fluida e segura.
+
+**Palavras-chave:** Desenvolvimento Android. Kotlin. Jetpack Compose. Room Database. Gestão de Orçamentos.

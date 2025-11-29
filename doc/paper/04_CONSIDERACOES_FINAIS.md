@@ -1,0 +1,7 @@
+# 4. Considerações Finais
+
+O desenvolvimento do **OrcaFacilApp** proporcionou uma experiência prática aprofundada no ecossistema de desenvolvimento Android moderno. A transição do paradigma imperativo (XML) para o declarativo (Jetpack Compose) representou inicialmente um desafio de aprendizado, exigindo uma mudança na forma de pensar a construção de interfaces. No entanto, os benefícios tornaram-se evidentes rapidamente: a redução da quantidade de código, o encapsulamento de componentes e a facilidade de criar layouts dinâmicos e responsivos.
+
+A implementação da arquitetura MVVM, aliada à injeção de dependência com Hilt, provou ser essencial para manter o código organizado e testável. A separação clara entre a lógica de negócios (ViewModel) e a interface (Compose) permitiu que alterações no design fossem feitas sem impactar as regras de funcionamento do aplicativo. O uso do Room para persistência de dados demonstrou ser uma solução robusta, eliminando a complexidade do gerenciamento direto de conexões SQL e cursores.
+
+Conclui-se que a utilização da stack tecnológica Kotlin + Jetpack Compose + Room não apenas atende aos requisitos funcionais de um aplicativo de gestão de orçamentos, mas também entrega um produto de software de alta qualidade técnica. Como trabalhos futuros, sugere-se a implementação de sincronização em nuvem (utilizando Firebase ou API REST) e a adição de relatórios gráficos para análise de orçamentos, expandindo ainda mais a utilidade da ferramenta para o usuário final.
