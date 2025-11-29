@@ -177,8 +177,42 @@
         "dependencies": [
           "3"
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "done",
+        "subtasks": [
+            {
+            "id": 1,
+            "title": "Implementar BudgetDao",
+            "description": "Criar a interface DAO para a entidade Budget com operações CRUD e consultas reativas.",
+            "dependencies": [],
+            "details": "Definir métodos: insertBudget (suspend), updateBudget (suspend), deleteBudget (suspend), getAllBudgets (Flow), getBudgetById (Flow), getBudgetWithItems (Flow + @Transaction).",
+            "status": "done",
+            "testStrategy": "Verificar a geração da classe _Impl pelo KSP.",
+            "parentId": "4"
+            },
+            {
+            "id": 2,
+            "title": "Implementar BudgetItemDao",
+            "description": "Criar a interface DAO para a entidade BudgetItem.",
+            "dependencies": [],
+            "details": "Definir métodos: insertItem (suspend), updateItem (suspend), deleteItem (suspend), getItemsByBudget (Flow).",
+            "status": "done",
+            "testStrategy": "Verificar a geração da classe _Impl pelo KSP.",
+            "parentId": "4"
+            },
+            {
+            "id": 3,
+            "title": "Configurar AppDatabase e Módulo DI",
+            "description": "Implementar a classe abstrata do Room e configurar a injeção de dependência com Hilt.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Criar `AppDatabase` estendendo `RoomDatabase`. Criar `DatabaseModule` no pacote `di` anotado com `@Module` e `@InstallIn(SingletonComponent)`. Prover `AppDatabase` (Singleton) e os DAOs.",
+            "status": "done",
+            "testStrategy": "Compilar o projeto e verificar se o grafo de dependências do Hilt é gerado corretamente.",
+            "parentId": "4"
+            }
+        ]
       },
       {
         "id": 5,
