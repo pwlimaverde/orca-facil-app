@@ -9,7 +9,7 @@ import com.pwlimaverde.orcafacilapp.data.local.entity.BudgetItem
 
 @Database(
     entities = [Budget::class, BudgetItem::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

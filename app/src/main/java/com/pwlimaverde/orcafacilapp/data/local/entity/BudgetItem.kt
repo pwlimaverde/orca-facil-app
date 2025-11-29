@@ -32,5 +32,5 @@ data class BudgetItem(
     val valorUnitario: Double,
 
     @ColumnInfo(name = "quantidade")
-    val quantidade: Int
+    val quantidade: Double
 )
