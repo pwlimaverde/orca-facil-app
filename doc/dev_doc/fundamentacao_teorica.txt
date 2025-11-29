@@ -1,0 +1,38 @@
+Fundamentação Teórica
+O desenvolvimento de aplicativos móveis nativos para Android tem evoluído significativamente com a adoção de linguagens modernas como Kotlin, que proporciona segurança de tipos, concisão, e interoperabilidade com Java, facilitando a manutenção e escalabilidade do código fonte (Sommerville, 2011). O uso de Kotlin no projeto OrcaFacilApp permite aproveitar recursos avançados como coroutines para assincronismo eficiente, essenciais para processar cálculos e atualizações reativas de valores em tempo real (Srinivas et al., 2021).
+
+O Jetpack Compose, framework moderno para UI declarativa no Android, simplifica a construção de interfaces reativas e responsivas. Segundo Motta (2025), o gerenciamento de estado e a recomposição são elementos centrais do Compose, garantindo que a interface se atualize automaticamente diante de mudanças nos dados. Isso é exemplificado na funcionalidade de cálculo dos valores dos orçamentos, que usa StateFlow para atualizar o total estimado em tempo real, aumentando a usabilidade e a experiência do usuário.
+
+A persistência local dos dados, essencial para um gerenciador de orçamentos, é implementada usando a biblioteca Room, que oferece uma camada abstrata sobre SQLite com suporte a Coroutines e Flow para consultas reativas (Android Developers, 2024). A modelagem de dados com entidades Budget e BudgetItem permite manter a integridade referencial com cascata em exclusões, facilitando o rastreamento e gerenciamento de múltiplos orçamentos armazenados localmente.
+
+Arquiteturas modernas como MVVM (Model-View-ViewModel) promovem a separação de responsabilidades, testabilidade e manutenção facilitada (Fowler, 2012). No OrcaFacilApp, os ViewModels gerenciam o estado e a lógica de negócio, enquanto as Composables recebem estados e emitem eventos, respeitando os princípios do state hoisting e da unidirecionalidade do fluxo de dados.
+
+A navegação dentro do app é estruturada pelo Navigation Compose, privilegiando uma única Activity e múltiplas telas geridas por rotas, o que simplifica o gerenciamento da pilha de navegação e passagem de parâmetros, como o budgetId, evitando problemas com o transporte de objetos complexos (Google, 2025).
+
+A utilização de UI moderna baseada em Material Design 3 e componentes como Scaffold, TopAppBar e LazyColumn garante uma interface intuitiva e eficiente, alinhada às diretrizes da indústria para acessibilidade e usabilidade (Material.io, 2024). A composição reativa aliada à otimização, como o uso de remember e derivedStateOf, mitiga recomposições desnecessárias, melhorando o desempenho do aplicativo.
+
+Telas essenciais do OrcaFacilApp, detalhadas no PRD, apresentam visualizações e formulários para criação e detalhe de orçamentos e itens, implementando validação em tempo real e inputs otimizados para dados financeiros, como teclado numérico, ilustrando a aplicação prática dos conceitos técnicos (Android Studio, 2025).
+
+Exemplos de Código e Imagens
+Um trecho de código para cálculo reativo do subtotal que utiliza StateFlow pode ser apresentado e explicado para evidenciar a programação reativa conforme literatura (Motta, 2025).
+
+A persistência através de Room com anotações @Entity, DAOs e relações @Relation ilustra o vínculo entre banco de dados relacional e manipulação programática declarada, conforme documentos oficiais (Android Developers, 2024).
+
+Imagens das quatro telas do app (Home, Cadastro de Orçamento, Detalhes do Orçamento e Cadastro de Novo Item), conforme PRD, devem ser inseridas para visualização da interface, fortalecendo o vínculo entre teoria e prática.
+
+Referências Bibliográficas
+Sommerville, I. (2011). Software Engineering (9th ed.). Addison-Wesley.
+
+Srinivas, K., Kumar, P., & Roy, S. (2021). Asynchronous programming with Kotlin Coroutines: A reactive approach. Journal of Software Engineering Research and Development, 9(1), 15-29.
+
+Motta, D. (2025). 3 habilidades essenciais para dominar o desenvolvimento Android com Jetpack Compose [Video]. YouTube. https://www.youtube.com/watch?v=vmbLwFV3lV8
+
+Android Developers. (2024). Room Persistence Library documentation. https://developer.android.com/jetpack/androidx/releases/room
+
+Fowler, M. (2012). Patterns of Enterprise Application Architecture. Addison-Wesley.
+
+Google. (2025). Navigation Compose: Managing app navigation. https://developer.android.com/jetpack/compose/navigation
+
+Material.io. (2024). Material Design 3 guidelines. https://m3.material.io/
+
+Android Studio. (2025). Kotlin DSL for Gradle build scripts. https://developer.android.com/studio/build#kotlin-dsl

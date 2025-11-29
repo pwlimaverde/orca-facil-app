@@ -1,94 +1,120 @@
 # Overview
-A aplicação **OrcaFacilApp** (Gerenciador Simples de Orçamentos) é uma **pequena aplicação** Android Nativa, desenvolvida com o objetivo de proporcionar a imersão no ambiente profissional e desenvolver senso crítico para resolução de problemas.
+A aplicação **OrcaFacilApp** (Gerenciador Simples de Orçamentos) é uma aplicação Android Nativa moderna, desenvolvida inteiramente com **Jetpack Compose** e **Kotlin**. O objetivo é proporcionar imersão no desenvolvimento profissional Android, focando em arquitetura limpa, reatividade e UI declarativa.
+
 O sistema resolve o problema de rastreamento de custos, permitindo que o usuário cadastre produtos, valores e quantidades para calcular e armazenar múltiplos orçamentos de forma persistente.
 
 # Core Features
 - **Gerenciamento de Múltiplos Orçamentos (RF1.0)**
   - Suportar a criação, visualização e armazenamento de vários registros `Budget`.
-  - Persistência de dados utilizando Room.
+  - Persistência local robusta utilizando Room Database.
 
-- **Cálculo de Custos (RF3.0, RF5.0)**
-  - Cálculo do Subtotal por item ($Valor\ Unitário \times Quantidade$).
-  - Cálculo e atualização automática do `valor_estimado_total` do Orçamento ao adicionar itens.
+- **Cálculo de Custos Reativo (RF3.0, RF5.0)**
+  - Cálculo do Subtotal por item ($Valor\ Unitário \times Quantidade$) em tempo real.
+  - Cálculo e atualização automática do `valor_estimado_total` do Orçamento via observação de estado (StateFlow).
 
 - **Visualização e Listagem (RF6.0, RF7.0)**
-  - Tela inicial com lista de orçamentos salvos (Nome e Valor Total).
+  - Tela inicial com lista de orçamentos (`LazyColumn`).
   - Tela de detalhes exibindo itens do orçamento e total acumulado.
 
-# User Experience
-O fluxo do usuário é dividido em 4 telas principais:
+# User Experience (UX) & UI Strategy
+A interface será construída 100% em **Jetpack Compose**, seguindo os princípios do Material Design 3.
+Navegação baseada em **Navigation Compose** (Single Activity).
 
-- **Tela 1: Lista de Orçamentos (Home)**
-  - Exibe `RecyclerView` com orçamentos cadastrados.
-  - Ações: Clicar em um orçamento para ver detalhes (→ Tela 3) ou criar um Novo Orçamento (→ Tela 2).
+- **Tela 1: Home (BudgetListScreen)**
+  - Componente: `Scaffold` com `TopAppBar`.
+  - Conteúdo: `LazyColumn` exibindo cards de orçamentos (`BudgetCard`).
+  - Estado: Observa `BudgetListUiState` (Loading, Success, Error).
+  - Ações: FAB (Floating Action Button) para criar Novo Orçamento (→ Rota: `add_budget`). Clique no card para ver detalhes (→ Rota: `budget_details/{budgetId}`).
 
-- **Tela 2: Cadastro de Orçamento**
-  - Formulário simples para inserir `Nome` e `Descrição` do orçamento.
-  - Ação: Botão "Salvar" persiste o orçamento e redireciona para a lista de itens (→ Tela 3).
+- **Tela 2: Cadastro de Orçamento (AddBudgetScreen)**
+  - Componente: Formulário com `OutlinedTextField`.
+  - Estado: `AddBudgetUiState` para validação de campos em tempo real.
+  - Ação: Botão "Salvar" persiste via ViewModel e navega de volta (`popBackStack`).
 
-- **Tela 3: Detalhes do Orçamento Ativo**
-  - Exibe o `Valor Estimado Total` atualizado.
-  - Lista (`RecyclerView`) os itens pertencentes a este orçamento.
-  - Ação: Botão para Adicionar Novo Item (→ Tela 4).
+- **Tela 3: Detalhes do Orçamento (BudgetDetailScreen)**
+  - Componente: Exibe cabeçalho com dados do orçamento e total.
+  - Conteúdo: `LazyColumn` listando `BudgetItemCard`.
+  - Lógica: O total deve ser um `Flow` derivado da soma dos itens no banco de dados.
+  - Ação: Botão para Adicionar Novo Item (→ Rota: `add_item/{budgetId}`).
 
-- **Tela 4: Cadastro de Novo Item**
-  - Formulário para `Nome do Produto`, `Valor Unitário` e `Quantidade`.
-  - Lógica: Realiza o cálculo do subtotal e atualiza o total do orçamento.
-  - Ação: Botão "Adicionar Item" salva e retorna à Tela 3.
+- **Tela 4: Cadastro de Novo Item (AddItemScreen)**
+  - Componente: Formulário para `Nome`, `Valor` e `Quantidade`.
+  - Lógica: Inputs numéricos com `KeyboardOptions(keyboardType = KeyboardType.Number)`.
+  - Ação: Botão "Adicionar" insere o item e atualiza reativamente a Tela 3.
 
 # Technical Architecture
-- **Plataforma**: Android Nativo (Minimum SDK: API 28 "Pie").
-- **Linguagem**: Kotlin (Build Config: Kotlin DSL).
-- **Persistência**: SQLite via **Room Persistence Library**.
-- **Interface**: Utilização de `RecyclerView` para listagens.
 
-## Modelagem de Dados
+## Stack Tecnológica
+- **Plataforma**: Android Nativo (Min SDK: 24).
+- **Linguagem**: Kotlin.
+- **UI Toolkit**: **Jetpack Compose** (BOM 2024+).
+  - Material 3.
+  - Navigation Compose.
+- **Arquitetura**: MVVM (Model-View-ViewModel).
+- **Persistência**: Room Persistence Library (com suporte a Coroutines/Flow).
+- **Injeção de Dependência**: Hilt (Recomendado) ou Manual DI (Koin/Container Simples) para simplicidade, mas estruturado para testabilidade.
+- **Assincronismo**: Kotlin Coroutines & Flow.
+
+## Modelagem de Dados (Room Entities)
 
 **Entidade: Orçamento (`Budget`)**
-- `id`: Integer (PK)
+- `id`: Long (PK, AutoGenerate)
 - `nome`: String
 - `descricao`: String
-- `valor_estimado_total`: Float/Double
+- `data_criacao`: Long (Timestamp)
 
 **Entidade: Item de Orçamento (`BudgetItem`)**
-- `id`: Integer (PK)
-- `budget_id`: Integer (FK - Vínculo com Orçamento)
-- `valor_unitario`: Float/Double
-- `quantidade`: Integer/Float
-- `subtotal`: Float/Double
+- `id`: Long (PK, AutoGenerate)
+- `budget_id`: Long (FK - Vínculo com Budget, OnDelete = CASCADE)
+- `nome_produto`: String
+- `valor_unitario`: Double
+- `quantidade`: Int
+
+**DTO/Relation:**
+- `BudgetWithItems`: Data class contendo `@Embedded Budget` e `@Relation List<BudgetItem>` para cálculos de totais.
 
 # Development Roadmap
-- **Fase 1: Fundamentos e Persistência**
-  - Configuração do projeto e dependências (Room, RecyclerView).
-  - Implementação das Entidades (`Budget`, `BudgetItem`) e DAOs.
-  - Configuração do Banco de Dados Room.
 
-- **Fase 2: Gerenciamento de Orçamentos (MVP Parcial)**
-  - Implementação da Tela 1 (Lista de Orçamentos) com RecyclerView.
-  - Implementação da Tela 2 (Cadastro de Orçamento) e persistência básica.
+- **Fase 1: Setup e Core (Infrastructure)**
+  - Configuração do Gradle (Compose, Room, Navigation, Hilt/Koin).
+  - Definição do `Theme.kt` (Cores, Tipografia, Shapes).
+  - Implementação da Camada de Dados (Entities, DAOs, Database, Repository).
 
-- **Fase 3: Itens e Cálculos (MVP Completo)**
-  - Implementação da Tela 3 (Detalhes do Orçamento).
-  - Implementação da Tela 4 (Cadastro de Item).
-  - Implementação da lógica de negócios: Cálculos de subtotal e atualização do total geral.
+- **Fase 2: Fluxo de Orçamentos (Feature: Budget)**
+  - Implementação do `BudgetViewModel`.
+  - Criação da `AddBudgetScreen` (Formulário).
+  - Criação da `BudgetListScreen` (Listagem).
+  - Configuração do Navigation Graph inicial.
+
+- **Fase 3: Fluxo de Itens e Detalhes (Feature: Items)**
+  - Implementação do `BudgetItemViewModel`.
+  - Criação da `BudgetDetailScreen` (Mestre-Detalhe).
+  - Criação da `AddItemScreen`.
+  - Lógica de atualização de totais em tempo real via `Flow`.
 
 - **Fase 4: Refinamento e Testes**
-  - Verificação dos fluxos de navegação.
-  - Testes manuais de persistência e cálculos.
-  - Ajustes finais de UI/UX.
+  - Testes Unitários (ViewModels e Cálculos).
+  - Testes de UI (Compose Test Rule).
+  - Polimento de UI (Espaçamentos, Animações de navegação, Tratamento de erros).
+
+- **Fase 5: Documentação Acadêmica (Paper e Socialização)**
+  - Coleta de Evidências (Screenshots das 4 telas e Snippets de código).
+  - Escrita do Paper (Resumo, Introdução, Fundamentação Teórica, Metodologia, Considerações).
+  - Elaboração do PPT para Socialização.
+  - Revisão ABNT e verificação de plágio.
 
 # Logical Dependency Chain
-1. **Camada de Dados**: A configuração do Room e das Entidades deve ser a primeira etapa, pois todas as telas dependem da estrutura de dados.
-2. **Fluxo de Orçamento**: A criação de orçamentos (Tela 2) é pré-requisito para a existência de itens.
-3. **Fluxo de Itens**: A adição de itens (Tela 4) depende de um orçamento existente e impacta a visualização da Tela 3 e Tela 1 (atualização de totais).
+1.  **Database**: DAOs precisam retornar `Flow<>` para a UI ser reativa.
+2.  **Repository**: Deve abstrair a fonte de dados para os ViewModels.
+3.  **Navigation**: Deve ser configurada na `MainActivity` antes das telas existirem, usando rotas tipadas ou Strings constantes.
+4.  **State Hoisting**: As telas (Composables) não devem ter lógica de negócio; elas recebem estado e emitem eventos para o ViewModel.
 
 # Risks and Mitigations
-- **Complexidade Relacional**: Gerenciar a relação 1:N entre Orçamento e Itens pode ser complexo para iniciantes.
-  - *Mitigação*: Utilizar anotações do Room corretamente (`@Relation` ou querys específicas) e testar queries isoladamente.
-- **Atualização de UI**: Garantir que a lista e os totais sejam atualizados ao retornar de uma tela de cadastro.
-  - *Mitigação*: Utilizar `onResume` para recarregar dados ou Observables (LiveData/Flow) se aplicável, mantendo a simplicidade focada no objetivo educacional.
+- **Complexidade do Compose State**: Gerenciar recomposições desnecessárias.
+  - *Mitigação*: Usar `remember`, `derivedStateOf` e chaves estáveis.
+- **Navegação com Argumentos**: Passar objetos complexos na navegação.
+  - *Mitigação*: Passar apenas o ID (`budgetId`) e fazer o ViewModel de destino buscar os dados no Repository.
 
 # Appendix
 - **Nome do Projeto**: OrcaFacilApp
 - **Package Name**: `com.pwlimaverde.orcafacilapp`
-- **Objetivo**: Educacional, demonstrando competências em desenvolvimento Android nativo e análise de sistemas.
