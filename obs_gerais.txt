@@ -1,0 +1,15 @@
+TASK1
+O arquivo chamado registro_tecnico_task1.md dentro da pasta doc/dev_doc . Ele já contém os textos prontos e formatados com as informações técnicas desta etapa.
+
+### Onde usar essas informações no Paper:
+1. Na seção Metodologia:
+   
+   - Cite que o desenvolvimento utilizou a linguagem Kotlin na versão 2.2.21 e o Android Studio .
+   - Mencione o uso do Kotlin DSL nos scripts de build (modernização em relação ao Groovy).
+   - Destaque a escolha pelo Java 17 e o target para Android 16 (API 36) para garantir compatibilidade com dispositivos de ponta.
+2. Na seção Fundamentação Teórica:
+   
+   - Ao falar de persistência de dados, mencione o uso do Room 2.7.0 com KSP (Kotlin Symbol Processing) para performance de compilação superior ao antigo KAPT.
+   - Ao falar de arquitetura, cite o uso do Dagger Hilt 2.55 para Injeção de Dependência, facilitando a manutenção e testes.
+   - Reforce que a interface é 100% declarativa com Jetpack Compose e Material 3 , alinhada às diretrizes de "Modern Android Development" (MAD).
+O arquivo que criei ( doc/dev_doc/registro_tecnico_task1.md ) já tem esses pontos detalhados e até sugestões de trechos de código para você copiar e colar no paper quando chegar a hora.
