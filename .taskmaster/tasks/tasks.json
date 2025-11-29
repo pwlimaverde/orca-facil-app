@@ -2,7 +2,7 @@
   "master": {
     "tasks": [
       {
-        "id": "1",
+        "id": 1,
         "title": "Configuração Inicial e Dependências do Projeto",
         "description": "Configurar o build.gradle com as dependências necessárias para Jetpack Compose, Room, Navigation Compose e Injeção de Dependência (Hilt ou Koin).",
         "details": "Adicionar dependências: \n- Room (runtime, ktx, compiler)\n- Navigation Compose\n- Hilt (android, compiler, navigation-compose)\n- ViewModel Compose\n- Coroutines.\nConfigurar Java 17/Kotlin options. Sincronizar o projeto e garantir build limpo.",
@@ -74,7 +74,7 @@
         "updatedAt": "2025-11-29T16:03:55.654Z"
       },
       {
-        "id": "2",
+        "id": 2,
         "title": "Implementação do Design System e Tema",
         "description": "Definir o tema base da aplicação utilizando Material Design 3, incluindo cores, tipografia e formas.",
         "details": "Criar/Atualizar 'Theme.kt', 'Color.kt', 'Type.kt'. Definir paleta de cores (Light/Dark) compatível com Material 3. Criar componentes base se necessário (ex: Espaçamentos padrão).",
@@ -83,11 +83,43 @@
         "dependencies": [
           "1"
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Definição da Paleta de Cores Material 3",
+            "description": "Definir as constantes de cor e esquemas para os modos claro e escuro no arquivo Color.kt.",
+            "dependencies": [],
+            "details": "Criar ou atualizar o arquivo `ui/theme/Color.kt`. Declarar as variáveis de cor (hex codes) e criar instâncias de `ColorScheme` (lightColorScheme e darkColorScheme) mapeando cores primárias, secundárias, terciárias e de superfície conforme diretrizes do Material 3.",
+            "status": "done",
+            "testStrategy": "Compilar o projeto e garantir que as constantes de cor estão acessíveis via código."
+          },
+          {
+            "id": 2,
+            "title": "Configuração da Tipografia Padrão",
+            "description": "Configurar os estilos de texto globais da aplicação no arquivo Type.kt utilizando a escala Material.",
+            "dependencies": [],
+            "details": "Criar ou atualizar o arquivo `ui/theme/Type.kt`. Instanciar o objeto `Typography` do Material 3 e definir os parâmetros (fontFamily, fontWeight, fontSize, lineHeight) para estilos como Display, Headline, Title, Body e Label.",
+            "status": "done",
+            "testStrategy": "Verificar a compilação do objeto Typography e sua disponibilidade para uso no tema."
+          },
+          {
+            "id": 3,
+            "title": "Implementação do Tema e Dynamic Color",
+            "description": "Unificar cores e tipografia no composable do tema principal, com suporte a cores dinâmicas.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Implementar o composable `OrcaFacilTheme` em `ui/theme/Theme.kt`. Adicionar lógica para verificar a versão do Android (S+) e aplicar `dynamicLightColorScheme`/`dynamicDarkColorScheme` se disponível. Configurar o `MaterialTheme` passando as cores e tipografia definidas anteriormente.",
+            "status": "done",
+            "testStrategy": "Criar um @Preview no Android Studio exibindo um componente de teste para validar visualmente a troca de temas (Light/Dark) e aplicação das fontes."
+          }
+        ],
+        "updatedAt": "2025-11-29T16:45:00.000Z"
       },
       {
-        "id": "3",
+        "id": 3,
         "title": "Modelagem de Dados (Entidades Room)",
         "description": "Criar as classes de entidade para 'Budget' (Orçamento) e 'BudgetItem' (Item de Orçamento) com anotações do Room.",
         "details": "Criar data classes:\n1. `Budget`: id (PK, AutoGen), nome, descricao, data_criacao.\n2. `BudgetItem`: id (PK, AutoGen), budget_id (FK, onDelete=CASCADE), nome_produto, valor_unitario, quantidade.\n3. `BudgetWithItems`: Relation 1-N.",
@@ -136,7 +168,7 @@
         ]
       },
       {
-        "id": "4",
+        "id": 4,
         "title": "Camada de Dados: DAOs e Database",
         "description": "Implementar as interfaces DAO e a classe abstrata do Room Database.",
         "details": "1. `BudgetDao`: insert(), getAll() -> Flow<List<Budget>>, getById().\n2. `BudgetItemDao`: insert(), getItemsByBudget() -> Flow<List<BudgetItem>>, delete().\n3. `AppDatabase`: @Database(entities = [...], version = 1).",
@@ -149,7 +181,7 @@
         "subtasks": []
       },
       {
-        "id": "5",
+        "id": 5,
         "title": "Camada de Repositório",
         "description": "Criar a camada de repositório para abstrair o acesso aos dados e fornecer uma API limpa para os ViewModels.",
         "details": "Criar interface `OrcaRepository` e implementação `OrcaRepositoryImpl`. Injetar DAOs via construtor. Expor funções suspensas para escrita e Flows para leitura.",
@@ -197,7 +229,7 @@
         ]
       },
       {
-        "id": "6",
+        "id": 6,
         "title": "Configuração de Injeção de Dependência (DI)",
         "description": "Configurar os módulos de DI (Hilt/Koin) para prover Database, DAOs e Repository.",
         "details": "Se Hilt: Criar `AppModule` com @Provides @Singleton para Database e Repository. Anotar `Application` com @HiltAndroidApp e `MainActivity` com @AndroidEntryPoint.",
@@ -210,7 +242,7 @@
         "subtasks": []
       },
       {
-        "id": "7",
+        "id": 7,
         "title": "ViewModel: Gestão de Orçamentos",
         "description": "Implementar `BudgetViewModel` para gerenciar a lista de orçamentos e criação de novos.",
         "details": "Criar `BudgetViewModel`. Expor `uiState` (Loading, Success<List<Budget>>, Error). Funções: `saveBudget(nome, descricao)` e `getBudgets()`.",
@@ -223,7 +255,7 @@
         "subtasks": []
       },
       {
-        "id": "8",
+        "id": 8,
         "title": "UI: Tela de Cadastro de Orçamento (AddBudgetScreen)",
         "description": "Criar a tela de formulário para adicionar um novo orçamento.",
         "details": "Composable `AddBudgetScreen`. Usar `OutlinedTextField` para Nome e Descrição. Botão 'Salvar' chama ViewModel. Tratar validação básica (campos não vazios).",
@@ -237,7 +269,7 @@
         "subtasks": []
       },
       {
-        "id": "9",
+        "id": 9,
         "title": "UI: Tela de Listagem de Orçamentos (BudgetListScreen)",
         "description": "Criar a tela inicial que lista todos os orçamentos cadastrados.",
         "details": "Composable `BudgetListScreen`. Usar `Scaffold`, `TopAppBar` e `LazyColumn`. Criar componente `BudgetCard` para cada item. Adicionar FAB para navegar para `AddBudgetScreen`.",
@@ -251,7 +283,7 @@
         "subtasks": []
       },
       {
-        "id": "10",
+        "id": 10,
         "title": "Configuração de Navegação (Navigation Graph)",
         "description": "Configurar o NavHost e as rotas da aplicação para o fluxo de orçamentos.",
         "details": "Definir rotas: 'home', 'add_budget'. Configurar `NavHost` na `MainActivity`. Conectar `BudgetListScreen` e `AddBudgetScreen`.",
@@ -300,7 +332,7 @@
         ]
       },
       {
-        "id": "11",
+        "id": 11,
         "title": "ViewModel: Itens do Orçamento",
         "description": "Implementar `BudgetItemViewModel` para gerenciar detalhes e itens de um orçamento específico.",
         "details": "Receber `budgetId` via SavedStateHandle. Expor `uiState` com dados do orçamento, lista de itens e `totalEstimado`. Lógica reativa: `total = itens.sumOf { it.valor * it.qtd }`.",
@@ -313,7 +345,7 @@
         "subtasks": []
       },
       {
-        "id": "12",
+        "id": 12,
         "title": "UI: Tela de Cadastro de Item (AddItemScreen)",
         "description": "Criar tela para adicionar produtos/itens a um orçamento.",
         "details": "Composable `AddItemScreen`. Campos: Nome (Texto), Valor (Decimal), Quantidade (Inteiro). Configurar `KeyboardOptions` numérico. Validar inputs.",
@@ -326,7 +358,7 @@
         "subtasks": []
       },
       {
-        "id": "13",
+        "id": 13,
         "title": "UI: Tela de Detalhes do Orçamento (BudgetDetailScreen)",
         "description": "Criar tela Mestre-Detalhe exibindo cabeçalho, lista de itens e total calculado.",
         "details": "Composable `BudgetDetailScreen`. Header com info do Budget. `LazyColumn` para `BudgetItemCard`. Footer ou Header fixo com Total Calculado reativo. Botão para `AddItemScreen`.",
@@ -340,7 +372,7 @@
         "subtasks": []
       },
       {
-        "id": "14",
+        "id": 14,
         "title": "Integração de Navegação Completa",
         "description": "Atualizar o Navigation Graph para suportar argumentos e fluxo de itens.",
         "details": "Adicionar rotas: 'budget_detail/{budgetId}' e 'add_item/{budgetId}'. Garantir passagem correta de argumentos (Long) entre as telas.",
@@ -354,7 +386,7 @@
         "subtasks": []
       },
       {
-        "id": "15",
+        "id": 15,
         "title": "Refinamento de UI e Testes Finais",
         "description": "Polimento visual, tratamento de erros de banco de dados e testes de instrumentação finais.",
         "details": "Melhorar layout dos Cards. Adicionar estados de 'Empty View' (listas vazias). Tratar exceções de IO com CoroutineExceptionHandler. Executar testes finais.",
@@ -367,7 +399,7 @@
         "subtasks": []
       },
       {
-        "id": "16",
+        "id": 16,
         "title": "Coleta de Evidências (Screenshots e Códigos)",
         "description": "Coletar e organizar as evidências visuais e de código necessárias para o Paper, conforme exigido nas diretrizes.",
         "details": "Capturar screenshots de alta qualidade das 4 telas principais: Home, Cadastro de Orçamento, Detalhes e Cadastro de Item. Selecionar trechos de código significativos: Lógica de Cálculo (ViewModel/UseCase) e Persistência (DAO/Room). Salvar em pasta 'doc/evidencias'.",
@@ -415,7 +447,7 @@
         ]
       },
       {
-        "id": "17",
+        "id": 17,
         "title": "Escrita do Corpo do Paper (Fundamentação e Metodologia)",
         "description": "Escrever a Fundamentação Teórica e Metodologia do Paper, garantindo o cumprimento dos requisitos de conteúdo (10+ parágrafos), citações e inserção correta de evidências de código e tela.",
         "status": "pending",
@@ -463,7 +495,7 @@
         ]
       },
       {
-        "id": "18",
+        "id": 18,
         "title": "Finalização e Formatação do Paper ABNT",
         "description": "Finalizar o Paper com Introdução, Resumo e Considerações Finais, seguindo a ordem lógica de escrita.",
         "details": "Escrever a Introdução (contextualização e objetivos). Escrever as Considerações Finais (conclusões e aprendizados). Por último, escrever o Resumo (max 250 palavras, parágrafo único). Formatar todo o documento nas normas da ABNT.",
@@ -511,7 +543,7 @@
         ]
       },
       {
-        "id": "19",
+        "id": 19,
         "title": "Elaboração do PPT de Socialização",
         "description": "Elaborar a apresentação em PPT para a Socialização do projeto.",
         "details": "Criar slides contendo: Capa, Introdução, Objetivos, Tecnologias Utilizadas, Evidências (Telas e Código) e Conclusão. Garantir clareza e objetividade para a apresentação oral.",
@@ -526,12 +558,14 @@
     ],
     "metadata": {
       "version": "1.0.0",
-      "lastModified": "2025-11-29T16:03:55.660Z",
+      "lastModified": "2025-11-29T16:30:06.992Z",
       "taskCount": 19,
       "completedCount": 1,
       "tags": [
         "master"
-      ]
+      ],
+      "created": "2025-11-29T16:30:29.216Z",
+      "description": "Tasks for master context"
     }
   }
 }
