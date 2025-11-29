@@ -128,7 +128,7 @@
         "dependencies": [
           "1"
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -136,7 +136,7 @@
             "description": "Criar a data class 'Budget' anotada como entidade do Room para representar a tabela principal de orçamentos.",
             "dependencies": [],
             "details": "Criar arquivo `Budget.kt` no pacote de dados local. Anotar a classe com `@Entity(tableName = \"budgets\")`. Definir as propriedades: `id` (Int, @PrimaryKey(autoGenerate = true)), `nome` (String), `descricao` (String) e `dataCriacao` (Long).",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verificar se a classe compila e se as anotações do Room (Entity, PrimaryKey) estão presentes via reflexão ou teste unitário simples.",
             "parentId": "undefined"
           },
@@ -148,7 +148,7 @@
               1
             ],
             "details": "Criar arquivo `BudgetItem.kt`. Anotar com `@Entity(tableName = \"budget_items\", foreignKeys = [...])`. Definir FK vinculando `budget_id` ao `id` da entidade `Budget`, configurando `onDelete = ForeignKey.CASCADE`. Incluir colunas: id, nomeProduto, valorUnitario, quantidade. Adicionar índice na coluna `budget_id`.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verificar a definição da Foreign Key e se o índice para a coluna da chave estrangeira foi definido para evitar warnings de compilação.",
             "parentId": "undefined"
           },
@@ -161,7 +161,7 @@
               2
             ],
             "details": "Criar arquivo `BudgetWithItems.kt`. Definir data class contendo: `val budget: Budget` (anotado com `@Embedded`) e `val items: List<BudgetItem>` (anotado com `@Relation(parentColumn = \"id\", entityColumn = \"budget_id\")`).",
-            "status": "pending",
+            "status": "done",
             "testStrategy": null,
             "parentId": "undefined"
           }
