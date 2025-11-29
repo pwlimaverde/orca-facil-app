@@ -1,0 +1,361 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Configuração Inicial e Dependências do Projeto",
+        "description": "Configurar o build.gradle com as dependências necessárias para Jetpack Compose, Room, Navigation Compose e Injeção de Dependência (Hilt ou Koin).",
+        "details": "Adicionar dependências: \n- Room (runtime, ktx, compiler)\n- Navigation Compose\n- Hilt (android, compiler, navigation-compose)\n- ViewModel Compose\n- Coroutines.\nConfigurar Java 17/Kotlin options. Sincronizar o projeto e garantir build limpo.",
+        "testStrategy": "Executar './gradlew build' para garantir que todas as dependências foram resolvidas sem conflitos.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Configuração de Versões do Java e Kotlin no Gradle",
+            "description": "Configurar o projeto para utilizar Java 17 e definir as opções do compilador Kotlin nos arquivos build.gradle.",
+            "dependencies": [],
+            "details": "No 'build.gradle' (app), definir 'compileOptions' e 'kotlinOptions' para 'JavaVersion.VERSION_17' e 'jvmTarget = \"17\"'. Atualizar versões dos plugins do Kotlin e Android Gradle Plugin no 'build.gradle' (project) para versões compatíveis.",
+            "status": "pending",
+            "testStrategy": "Sincronizar o Gradle (Sync Project with Gradle Files) e verificar se não ocorrem erros de compatibilidade de versão."
+          },
+          {
+            "id": 2,
+            "title": "Adição das Dependências do Jetpack Compose e Material 3",
+            "description": "Incluir as bibliotecas essenciais para a interface de usuário utilizando o BOM do Compose.",
+            "dependencies": [
+              1
+            ],
+            "details": "Adicionar 'androidx.compose:compose-bom' (ex: 2023.08.00 ou superior). Implementar dependências: 'ui', 'ui-graphics', 'ui-tooling-preview', 'material3'. Adicionar 'ui-tooling' e 'ui-test-manifest' como 'debugImplementation'.",
+            "status": "pending",
+            "testStrategy": "Executar um build limpo e verificar se as classes do Compose (ex: @Composable) são resolvidas no editor."
+          },
+          {
+            "id": 3,
+            "title": "Implementação das Dependências do Room Database",
+            "description": "Adicionar as bibliotecas do Room para persistência de dados local, incluindo runtime, KTX e compilador.",
+            "dependencies": [
+              1
+            ],
+            "details": "Aplicar o plugin 'kotlin-kapt' ou 'com.google.devtools.ksp' no topo do 'build.gradle'. Adicionar 'androidx.room:room-runtime', 'androidx.room:room-ktx' e 'androidx.room:room-compiler' (kapt/ksp).",
+            "status": "pending",
+            "testStrategy": "Criar uma classe dummy anotada com @Entity e tentar compilar para verificar se o processador de anotações do Room está ativo."
+          },
+          {
+            "id": 4,
+            "title": "Configuração do Hilt para Injeção de Dependência",
+            "description": "Integrar o Dagger Hilt ao projeto, configurando plugins e dependências necessárias.",
+            "dependencies": [
+              1
+            ],
+            "details": "No 'build.gradle' (project), adicionar o classpath do Hilt. No app, aplicar plugin 'dagger.hilt.android.plugin'. Adicionar dependências 'com.google.dagger:hilt-android' e 'hilt-compiler'.",
+            "status": "pending",
+            "testStrategy": "Adicionar a anotação @HiltAndroidApp na classe Application (criar se não existir) e fazer o build para validar a geração de código do Hilt."
+          },
+          {
+            "id": 5,
+            "title": "Adição de Navigation Compose e Componentes de Arquitetura",
+            "description": "Incluir bibliotecas para navegação entre telas e gerenciamento de ciclo de vida com ViewModels.",
+            "dependencies": [
+              2,
+              4
+            ],
+            "details": "Adicionar 'androidx.navigation:navigation-compose' para gestão de rotas. Adicionar 'androidx.hilt:hilt-navigation-compose' para integração com DI. Incluir 'androidx.lifecycle:lifecycle-viewmodel-compose' e 'kotlinx-coroutines-android'.",
+            "status": "pending",
+            "testStrategy": "Executar './gradlew dependencies' e verificar se não há conflitos de versão entre as bibliotecas de navegação e lifecycle."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Implementação do Design System e Tema",
+        "description": "Definir o tema base da aplicação utilizando Material Design 3, incluindo cores, tipografia e formas.",
+        "details": "Criar/Atualizar 'Theme.kt', 'Color.kt', 'Type.kt'. Definir paleta de cores (Light/Dark) compatível com Material 3. Criar componentes base se necessário (ex: Espaçamentos padrão).",
+        "testStrategy": "Verificar a renderização do @Preview do tema no Android Studio e garantir suporte a Dark Mode.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Modelagem de Dados (Entidades Room)",
+        "description": "Criar as classes de entidade para 'Budget' (Orçamento) e 'BudgetItem' (Item de Orçamento) com anotações do Room.",
+        "details": "Criar data classes:\n1. `Budget`: id (PK, AutoGen), nome, descricao, data_criacao.\n2. `BudgetItem`: id (PK, AutoGen), budget_id (FK, onDelete=CASCADE), nome_produto, valor_unitario, quantidade.\n3. `BudgetWithItems`: Relation 1-N.",
+        "testStrategy": "Verificar compilação das entidades e se as chaves estrangeiras estão corretamente anotadas.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implementar Entidade Budget",
+            "description": "Criar a data class 'Budget' anotada como entidade do Room para representar a tabela principal de orçamentos.",
+            "dependencies": [],
+            "details": "Criar arquivo `Budget.kt` no pacote de dados local. Anotar a classe com `@Entity(tableName = \"budgets\")`. Definir as propriedades: `id` (Int, @PrimaryKey(autoGenerate = true)), `nome` (String), `descricao` (String) e `dataCriacao` (Long).",
+            "status": "pending",
+            "testStrategy": "Verificar se a classe compila e se as anotações do Room (Entity, PrimaryKey) estão presentes via reflexão ou teste unitário simples."
+          },
+          {
+            "id": 2,
+            "title": "Implementar Entidade BudgetItem com Foreign Key",
+            "description": "Criar a data class 'BudgetItem' representando os itens do orçamento, configurando a chave estrangeira e comportamento de cascata.",
+            "dependencies": [
+              1
+            ],
+            "details": "Criar arquivo `BudgetItem.kt`. Anotar com `@Entity(tableName = \"budget_items\", foreignKeys = [...])`. Definir FK vinculando `budget_id` ao `id` da entidade `Budget`, configurando `onDelete = ForeignKey.CASCADE`. Incluir colunas: id, nomeProduto, valorUnitario, quantidade. Adicionar índice na coluna `budget_id`.",
+            "status": "pending",
+            "testStrategy": "Verificar a definição da Foreign Key e se o índice para a coluna da chave estrangeira foi definido para evitar warnings de compilação."
+          },
+          {
+            "id": 3,
+            "title": "Criar Classe de Relação BudgetWithItems",
+            "description": "Implementar a classe POJO para modelar a relação um-para-muitos entre Budget e BudgetItem.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Criar arquivo `BudgetWithItems.kt`. Definir data class contendo: `val budget: Budget` (anotado com `@Embedded`) e `val items: List<BudgetItem>` (anotado com `@Relation(parentColumn = \"id\", entityColumn = \"budget_id\")`).",
+            "status": "pending",
+            "testStrategy": null
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Camada de Dados: DAOs e Database",
+        "description": "Implementar as interfaces DAO e a classe abstrata do Room Database.",
+        "details": "1. `BudgetDao`: insert(), getAll() -> Flow<List<Budget>>, getById().\n2. `BudgetItemDao`: insert(), getItemsByBudget() -> Flow<List<BudgetItem>>, delete().\n3. `AppDatabase`: @Database(entities = [...], version = 1).",
+        "testStrategy": "Criar testes instrumentados (AndroidTest) para validar inserção e leitura no banco em memória (inMemoryDatabaseBuilder).",
+        "priority": "high",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Camada de Repositório",
+        "description": "Criar a camada de repositório para abstrair o acesso aos dados e fornecer uma API limpa para os ViewModels.",
+        "details": "Criar interface `OrcaRepository` e implementação `OrcaRepositoryImpl`. Injetar DAOs via construtor. Expor funções suspensas para escrita e Flows para leitura.",
+        "testStrategy": "Testes unitários mockando os DAOs para garantir que o repositório chama os métodos corretos.",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Definição da Interface OrcaRepository",
+            "description": "Criar a interface pública que define o contrato de acesso aos dados para orçamentos e itens, garantindo o desacoplamento.",
+            "dependencies": [],
+            "details": "Criar o arquivo `OrcaRepository.kt` no pacote `com.example.orcafacilapp.data.repository`. Definir assinaturas para operações de leitura reativas (`Flow`) e escrita (`suspend`): `getBudgets(): Flow<List<Budget>>`, `getBudgetById(id: Long): Flow<Budget>`, `insertBudget(budget: Budget): Long`, `getItemsByBudget(budgetId: Long): Flow<List<BudgetItem>>`, `insertItem(item: BudgetItem)` e `deleteItem(item: BudgetItem)`.",
+            "status": "pending",
+            "testStrategy": null
+          },
+          {
+            "id": 2,
+            "title": "Implementação da Classe OrcaRepositoryImpl",
+            "description": "Implementar a lógica concreta do repositório delegando as chamadas para os DAOs injetados.",
+            "dependencies": [
+              1
+            ],
+            "details": "Criar a classe `OrcaRepositoryImpl` que implementa `OrcaRepository`. Injetar `BudgetDao` e `BudgetItemDao` via construtor (preparando para Hilt/Koin). Implementar os métodos da interface repassando as chamadas para os DAOs correspondentes. Exemplo: `override fun getBudgets() = budgetDao.getAll()`. Garantir o tratamento correto de corrotinas.",
+            "status": "pending",
+            "testStrategy": "Verificar a compilação e a correta injeção de dependências manuais ou automáticas."
+          },
+          {
+            "id": 3,
+            "title": "Testes Unitários do Repositório",
+            "description": "Validar a interação do repositório com os DAOs através de testes unitários isolados.",
+            "dependencies": [
+              2
+            ],
+            "details": "Configurar a classe de teste `OrcaRepositoryTest` no diretório `test`. Utilizar MockK para simular `BudgetDao` e `BudgetItemDao`. Implementar testes verificando: 1. Se `getAllBudgets` propaga o Flow retornado pelo DAO; 2. Se `insertBudget` invoca o DAO corretamente e retorna o ID; 3. Se `getItemsByBudget` filtra os itens corretamente via DAO.",
+            "status": "pending",
+            "testStrategy": "Executar testes unitários com JUnit e validar se todas as chamadas aos mocks ocorrem como esperado (verify)."
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Configuração de Injeção de Dependência (DI)",
+        "description": "Configurar os módulos de DI (Hilt/Koin) para prover Database, DAOs e Repository.",
+        "details": "Se Hilt: Criar `AppModule` com @Provides @Singleton para Database e Repository. Anotar `Application` com @HiltAndroidApp e `MainActivity` com @AndroidEntryPoint.",
+        "testStrategy": "Executar o app vazio para garantir que não há erros de runtime na inicialização do grafo de dependências.",
+        "priority": "high",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "ViewModel: Gestão de Orçamentos",
+        "description": "Implementar `BudgetViewModel` para gerenciar a lista de orçamentos e criação de novos.",
+        "details": "Criar `BudgetViewModel`. Expor `uiState` (Loading, Success<List<Budget>>, Error). Funções: `saveBudget(nome, descricao)` e `getBudgets()`.",
+        "testStrategy": "Testes unitários com Turbine para validar a emissão de estados do Flow.",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "UI: Tela de Cadastro de Orçamento (AddBudgetScreen)",
+        "description": "Criar a tela de formulário para adicionar um novo orçamento.",
+        "details": "Composable `AddBudgetScreen`. Usar `OutlinedTextField` para Nome e Descrição. Botão 'Salvar' chama ViewModel. Tratar validação básica (campos não vazios).",
+        "testStrategy": "Usar ComposeTestRule para verificar se o botão habilita apenas com campos preenchidos e se o callback de salvar é acionado.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "UI: Tela de Listagem de Orçamentos (BudgetListScreen)",
+        "description": "Criar a tela inicial que lista todos os orçamentos cadastrados.",
+        "details": "Composable `BudgetListScreen`. Usar `Scaffold`, `TopAppBar` e `LazyColumn`. Criar componente `BudgetCard` para cada item. Adicionar FAB para navegar para `AddBudgetScreen`.",
+        "testStrategy": "Verificar se a lista exibe os itens mockados e se o clique no FAB dispara o evento de navegação.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Configuração de Navegação (Navigation Graph)",
+        "description": "Configurar o NavHost e as rotas da aplicação para o fluxo de orçamentos.",
+        "details": "Definir rotas: 'home', 'add_budget'. Configurar `NavHost` na `MainActivity`. Conectar `BudgetListScreen` e `AddBudgetScreen`.",
+        "testStrategy": "Navegação manual: Abrir App -> Clicar FAB -> Preencher -> Salvar -> Verificar retorno para Home.",
+        "priority": "high",
+        "dependencies": [
+          8,
+          9
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Definição da Estrutura de Rotas (Sealed Classes)",
+            "description": "Criar uma estrutura de rotas segura utilizando Sealed Class para mapear os destinos da navegação.",
+            "dependencies": [],
+            "details": "Criar arquivo `ui/navigation/Screen.kt` (ou `Routes.kt`). Definir `sealed class Screen(val route: String)`. Implementar os objetos `object Home : Screen(\"home\")` e `object AddBudget : Screen(\"add_budget\")`. Isso facilitará a manutenção das strings de rota.",
+            "status": "pending",
+            "testStrategy": "Verificar se as strings de rota são acessíveis estaticamente em um teste unitário simples."
+          },
+          {
+            "id": 2,
+            "title": "Implementação do NavHost e Configuração do Grafo",
+            "description": "Implementar o componente NavHost que gerencia a troca de telas entre a listagem e o formulário.",
+            "dependencies": [
+              1
+            ],
+            "details": "Criar um Composable (ex: `AppNavGraph`) que recebe um `NavHostController`. Configurar `NavHost` com `startDestination = Screen.Home.route`. Adicionar `composable(Screen.Home.route)` instanciando `BudgetListScreen` (passando callback para navegar para AddBudget) e `composable(Screen.AddBudget.route)` instanciando `AddBudgetScreen` (passando callback para `popBackStack`).",
+            "status": "pending",
+            "testStrategy": null
+          },
+          {
+            "id": 3,
+            "title": "Integração do NavController na MainActivity",
+            "description": "Configurar a MainActivity para hospedar o sistema de navegação dentro do tema da aplicação.",
+            "dependencies": [
+              2
+            ],
+            "details": "Na `MainActivity.kt`, dentro de `setContent` e do bloco do tema: 1. Instanciar `val navController = rememberNavController()`. 2. Chamar o Composable `AppNavGraph` (ou onde o NavHost foi definido) passando o `navController`. Garantir que a Activity esteja anotada com `@AndroidEntryPoint`.",
+            "status": "pending",
+            "testStrategy": "Executar o app no emulador e verificar se a tela inicial (Home) é carregada sem crashes."
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "ViewModel: Itens do Orçamento",
+        "description": "Implementar `BudgetItemViewModel` para gerenciar detalhes e itens de um orçamento específico.",
+        "details": "Receber `budgetId` via SavedStateHandle. Expor `uiState` com dados do orçamento, lista de itens e `totalEstimado`. Lógica reativa: `total = itens.sumOf { it.valor * it.qtd }`.",
+        "testStrategy": "Testes unitários validando o cálculo do total ao adicionar/remover itens.",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "UI: Tela de Cadastro de Item (AddItemScreen)",
+        "description": "Criar tela para adicionar produtos/itens a um orçamento.",
+        "details": "Composable `AddItemScreen`. Campos: Nome (Texto), Valor (Decimal), Quantidade (Inteiro). Configurar `KeyboardOptions` numérico. Validar inputs.",
+        "testStrategy": "Verificar input types corretos (teclado numérico abre para valor e quantidade).",
+        "priority": "medium",
+        "dependencies": [
+          11
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "UI: Tela de Detalhes do Orçamento (BudgetDetailScreen)",
+        "description": "Criar tela Mestre-Detalhe exibindo cabeçalho, lista de itens e total calculado.",
+        "details": "Composable `BudgetDetailScreen`. Header com info do Budget. `LazyColumn` para `BudgetItemCard`. Footer ou Header fixo com Total Calculado reativo. Botão para `AddItemScreen`.",
+        "testStrategy": "Verificar se o Total atualiza automaticamente na UI ao adicionar um item e voltar para esta tela.",
+        "priority": "high",
+        "dependencies": [
+          11,
+          12
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Integração de Navegação Completa",
+        "description": "Atualizar o Navigation Graph para suportar argumentos e fluxo de itens.",
+        "details": "Adicionar rotas: 'budget_detail/{budgetId}' e 'add_item/{budgetId}'. Garantir passagem correta de argumentos (Long) entre as telas.",
+        "testStrategy": "Teste de fluxo completo: Home -> Detalhe (ID correto) -> Add Item -> Salvar -> Detalhe (Verificar Item presente).",
+        "priority": "high",
+        "dependencies": [
+          10,
+          13
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Refinamento de UI e Testes Finais",
+        "description": "Polimento visual, tratamento de erros de banco de dados e testes de instrumentação finais.",
+        "details": "Melhorar layout dos Cards. Adicionar estados de 'Empty View' (listas vazias). Tratar exceções de IO com CoroutineExceptionHandler. Executar testes finais.",
+        "testStrategy": "Executar bateria completa de testes unitários e instrumentados. Verificação visual de espaçamentos e alinhamentos.",
+        "priority": "low",
+        "dependencies": [
+          14
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-11-29T14:14:34.331Z",
+      "updated": "2025-11-29T14:14:34.331Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
