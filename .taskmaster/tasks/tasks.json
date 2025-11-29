@@ -350,11 +350,159 @@
         ],
         "status": "pending",
         "subtasks": []
+      },
+      {
+        "id": 16,
+        "title": "Coleta de Evidências (Screenshots e Códigos)",
+        "description": "Coletar e organizar as evidências visuais e de código necessárias para o Paper, conforme exigido nas diretrizes.",
+        "details": "Capturar screenshots de alta qualidade das 4 telas principais: Home, Cadastro de Orçamento, Detalhes e Cadastro de Item. Selecionar trechos de código significativos: Lógica de Cálculo (ViewModel/UseCase) e Persistência (DAO/Room). Salvar em pasta 'doc/evidencias'.",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [
+          15
+        ],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Preparação de Diretórios e Captura de Screenshots das Telas Principais",
+            "description": "Criar a estrutura de pastas destinada à documentação do projeto e realizar a captura das telas fundamentais do aplicativo para compor as evidências visuais do Paper.",
+            "dependencies": [],
+            "details": "Criar o diretório 'doc/evidencias' na raiz do projeto. Executar a aplicação e capturar screenshots em alta resolução (PNG) das seguintes telas: 1. Home (Lista de Orçamentos), 2. Cadastro de Orçamento, 3. Detalhes do Orçamento e 4. Cadastro de Item. Renomear os arquivos de forma semântica (ex: 'tela_home.png', 'tela_cadastro.png').",
+            "status": "pending",
+            "testStrategy": "Verificar se a pasta 'doc/evidencias' existe e contém 4 arquivos de imagem válidos correspondentes às telas solicitadas."
+          },
+          {
+            "id": 2,
+            "title": "Extração de Trechos de Código de Lógica de Negócio e Cálculos",
+            "description": "Identificar e extrair a lógica responsável pelos cálculos financeiros do aplicativo, demonstrando o uso de StateFlow ou LiveData e regras de negócio no ViewModel.",
+            "dependencies": [
+              1
+            ],
+            "details": "Navegar até o diretório dos ViewModels (ex: 'ui/viewmodel'). Localizar a função responsável pelo cálculo do valor total do orçamento (soma dos itens x quantidade). Copiar o trecho de código relevante, mantendo as assinaturas e lógica principal, e salvar em um arquivo de texto ou markdown em 'doc/evidencias/snippet_logica_calculo.kt'.",
+            "status": "pending",
+            "testStrategy": "Confirmar a criação do arquivo 'snippet_logica_calculo.kt' contendo a lógica de soma/atualização de valores do orçamento."
+          },
+          {
+            "id": 3,
+            "title": "Extração de Trechos de Código da Camada de Persistência (Room)",
+            "description": "Coletar evidências da implementação do banco de dados local, focando nas interfaces DAO e nas anotações da biblioteca Room.",
+            "dependencies": [
+              2
+            ],
+            "details": "Navegar até o diretório de dados/DAO (ex: 'data/dao'). Selecionar a interface principal (ex: 'OrcamentoDao.kt'). Copiar os métodos anotados com @Insert, @Query (especialmente consultas com JOIN ou filtros) e @Transaction. Salvar este conteúdo em 'doc/evidencias/snippet_persistencia_room.kt' para uso na fundamentação teórica.",
+            "status": "pending",
+            "testStrategy": "Verificar se o arquivo 'snippet_persistencia_room.kt' foi criado e contém as anotações do Room corretamente formatadas."
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "title": "Escrita do Corpo do Paper (Fundamentação e Metodologia)",
+        "description": "Escrever a Fundamentação Teórica e Metodologia do Paper, garantindo o cumprimento dos requisitos de conteúdo e citações.",
+        "details": "Escrever no mínimo 10 parágrafos para a Fundamentação Teórica, citando livros/artigos sobre Kotlin, Android e Room. Na Metodologia, descrever o uso do Android Studio, Kotlin DSL e API 28. Inserir as evidências coletadas com legendas explicativas.",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [
+          16
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Redação da Fundamentação Teórica",
+            "description": "Elaborar o texto da Fundamentação Teórica, cobrindo os conceitos tecnológicos fundamentais do projeto com no mínimo 10 parágrafos.",
+            "dependencies": [],
+            "details": "Escrever sobre a linguagem Kotlin (segurança de nulos, concisão), a plataforma Android (com foco na arquitetura moderna) e a biblioteca de persistência Room. É obrigatório incluir citações de livros técnicos ou artigos acadêmicos para embasar as afirmações sobre cada tecnologia.",
+            "status": "pending",
+            "testStrategy": "Revisão manual para garantir a presença de no mínimo 10 parágrafos e verificação da validade das citações bibliográficas."
+          },
+          {
+            "id": 2,
+            "title": "Escrita da Metodologia e Ferramentas",
+            "description": "Descrever a metodologia de desenvolvimento, detalhando o ambiente, as configurações de build e as ferramentas utilizadas.",
+            "dependencies": [
+              1
+            ],
+            "details": "Documentar o uso do Android Studio como IDE, o sistema de build baseado em Kotlin DSL (build.gradle.kts) e a definição da API Level 28 como target. Explicar brevemente o fluxo de implementação das funcionalidades (ex: criação das entidades Room, depois DAOs, Repositories e UI).",
+            "status": "pending",
+            "testStrategy": null
+          },
+          {
+            "id": 3,
+            "title": "Inserção de Evidências e Legendas",
+            "description": "Integrar as capturas de tela coletadas anteriormente ao texto da metodologia para ilustrar os resultados obtidos.",
+            "dependencies": [
+              2
+            ],
+            "details": "Inserir as imagens (evidências de funcionamento do app) nos pontos apropriados do texto da Metodologia. Adicionar legendas explicativas numeradas (ex: 'Figura 1: Tela de Listagem de Orçamentos') e garantir que cada imagem seja referenciada no corpo do texto.",
+            "status": "pending",
+            "testStrategy": "Inspeção visual para confirmar que todas as imagens possuem legendas corretas e estão alinhadas com o texto explicativo."
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "title": "Finalização e Formatação do Paper ABNT",
+        "description": "Finalizar o Paper com Introdução, Resumo e Considerações Finais, seguindo a ordem lógica de escrita.",
+        "details": "Escrever a Introdução (contextualização e objetivos). Escrever as Considerações Finais (conclusões e aprendizados). Por último, escrever o Resumo (max 250 palavras, parágrafo único). Formatar todo o documento nas normas da ABNT.",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [
+          17
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Redação da Introdução e Considerações Finais",
+            "description": "Escrever as seções de abertura e fechamento do Paper acadêmico, contextualizando o projeto OrcaFacilApp.",
+            "dependencies": [],
+            "details": "Elaborar a Introdução definindo o problema de gestão de orçamentos e os objetivos do aplicativo. Redigir as Considerações Finais destacando o aprendizado com Kotlin e Room, as dificuldades superadas e as conclusões sobre a solução desenvolvida.",
+            "status": "pending",
+            "testStrategy": "Revisão textual para garantir coesão com a Fundamentação Teórica e Metodologia."
+          },
+          {
+            "id": 2,
+            "title": "Elaboração do Resumo (Abstract)",
+            "description": "Produzir o resumo técnico do trabalho conforme as limitações de palavras e estrutura normativa.",
+            "dependencies": [
+              1
+            ],
+            "details": "Escrever o Resumo em parágrafo único (max 250 palavras), abordando o contexto, objetivo, método (desenvolvimento Android) e resultados. Definir 3 a 5 palavras-chave (ex: Desenvolvimento Mobile, Kotlin, Gestão).",
+            "status": "pending",
+            "testStrategy": "Verificação de contagem de palavras e presença dos elementos essenciais (contexto, objetivo, método, resultado)."
+          },
+          {
+            "id": 3,
+            "title": "Formatação ABNT e Revisão Geral",
+            "description": "Aplicar as normas da ABNT em todo o documento e realizar a revisão final antes da entrega.",
+            "dependencies": [
+              2
+            ],
+            "details": "Ajustar margens, fontes (Arial/Times 12), espaçamento (1.5) e numeração. Verificar citações (autor-data) e referências bibliográficas. Garantir que as figuras (evidências do app) tenham títulos e fontes corretas.",
+            "status": "pending",
+            "testStrategy": "Validação visual contra o template institucional e checklist de normas da ABNT."
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "title": "Elaboração do PPT de Socialização",
+        "description": "Elaborar a apresentação em PPT para a Socialização do projeto.",
+        "details": "Criar slides contendo: Capa, Introdução, Objetivos, Tecnologias Utilizadas, Evidências (Telas e Código) e Conclusão. Garantir clareza e objetividade para a apresentação oral.",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [
+          18
+        ],
+        "priority": "medium",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-11-29T14:14:34.331Z",
-      "updated": "2025-11-29T14:14:34.331Z",
+      "updated": "2025-11-29T15:06:36.738Z",
       "description": "Tasks for master context"
     }
   }

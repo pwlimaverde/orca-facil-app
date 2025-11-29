@@ -97,6 +97,12 @@ Navegação baseada em **Navigation Compose** (Single Activity).
   - Testes de UI (Compose Test Rule).
   - Polimento de UI (Espaçamentos, Animações de navegação, Tratamento de erros).
 
+- **Fase 5: Documentação Acadêmica (Paper e Socialização)**
+  - Coleta de Evidências (Screenshots das 4 telas e Snippets de código).
+  - Escrita do Paper (Resumo, Introdução, Fundamentação Teórica, Metodologia, Considerações).
+  - Elaboração do PPT para Socialização.
+  - Revisão ABNT e verificação de plágio.
+
 # Logical Dependency Chain
 1.  **Database**: DAOs precisam retornar `Flow<>` para a UI ser reativa.
 2.  **Repository**: Deve abstrair a fonte de dados para os ViewModels.
